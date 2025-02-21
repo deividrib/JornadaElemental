@@ -35,13 +35,17 @@ pico_sdk_init()
 
 # Add executable. Default name is the project name, version 0.1
 
-add_executable(JornadaElemental JornadaElemental.c )
+add_executable(JornadaElemental 
+      JornadaElemental.c
+      include/ssd1306.c 
+      include/matriz_led_control.c
+)
 
 pico_set_program_name(JornadaElemental "JornadaElemental")
 pico_set_program_version(JornadaElemental "0.1")
 
 # Generate PIO header
-pico_generate_pio_header(JornadaElemental ${CMAKE_CURRENT_LIST_DIR}/blink.pio)
+pico_generate_pio_header(JornadaElemental ${CMAKE_CURRENT_LIST_DIR}/pio_matrix.pio)
 
 # Modify the below lines to enable/disable output over UART/USB
 pico_enable_stdio_uart(JornadaElemental 1)
@@ -53,7 +57,7 @@ target_link_libraries(JornadaElemental
 
 # Add the standard include files to the build
 target_include_directories(JornadaElemental PRIVATE
-        ${CMAKE_CURRENT_LIST_DIR}
+        ${CMAKE_CURRENT_LIST_DIR}/include
 )
 
 # Add any user requested libraries
@@ -66,6 +70,11 @@ target_link_libraries(JornadaElemental
         hardware_timer
         hardware_watchdog
         hardware_clocks
+        hardware_pwm
+        hardware_adc
+        pico_bootrom
+
+
         
         )
 
